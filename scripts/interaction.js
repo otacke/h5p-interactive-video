@@ -127,10 +127,9 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       });
 
       // if requires completion -> open dialog right away
-      if(self.getRequiresCompletion()
-        && player.editor === undefined
-        && player.currentState !== H5P.InteractiveVideo.SEEKING
-      ){
+      if (self.getRequiresCompletion() &&
+          player.editor === undefined &&
+          player.currentState !== H5P.InteractiveVideo.SEEKING) {
         openDialog(true);
       }
 
@@ -224,8 +223,8 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      *
      * @private
      */
-    var closeInteraction = function () {
-      var closeDialog = !player.hasUncompletedRequiredInteractions();
+    var closeInteraction = function (seekTo) {
+      var closeDialog = !player.hasUncompletedRequiredInteractions(seekTo);
       if (self.isButton()) {
         if (closeDialog) {
           player.dnb.dialog.close();
@@ -325,14 +324,14 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
         // Skip opening dialog if re-calculation yields full score
         return;
       }
-      else if(self.getRequiresCompletion() && !self.hasFullScore()){
+      else if (self.getRequiresCompletion() && !self.hasFullScore()) {
         player.dnb.dialog.hideCloseButton();
         player.dnb.dialog.disableOverlay = true;
 
         // selects the overlay, and adds warning on click
         var $dialogWrapper = player.$container.find('.h5p-dialog-wrapper');
-        $dialogWrapper.click(function(){
-          if(!self.hasFullScore()){
+        $dialogWrapper.click(function () {
+          if (!self.hasFullScore()) {
             player.showWarningMask();
           }
         });
@@ -498,7 +497,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       var height = parameters.height || 10;
       var width = parameters.width || 10;
 
-      if (library !== 'H5P.IVHotspot') {
+      if (library !== 'H5P.IVHotspot' && library !== 'H5P.IVGoTo') {
         return {
           height: height + 'em',
           width: width + 'em'
@@ -522,7 +521,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      *
      * @param $interaction
      */
-    var showOverlayMask = function($interaction){
+    var showOverlayMask = function ($interaction) {
       $interaction.css('zIndex', 52);
       player.showOverlayMask();
 
@@ -533,8 +532,8 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      * Hides the mask behind the interaction
      * @param $interaction
      */
-    var hideOverlayMask = function($interaction){
-      if($interaction){
+    var hideOverlayMask = function ($interaction) {
+      if ($interaction) {
         $interaction.css('zIndex', '');
       }
       player.hideOverlayMask();
@@ -560,7 +559,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
         }
       });
 
-      if (library !== 'H5P.IVHotspot') {
+      if (library !== 'H5P.IVHotspot' && library !== 'H5P.IVGoTo') {
         // Add background
         $interaction.css('background', visuals.backgroundColor);
 
@@ -612,11 +611,10 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       // Trigger event listeners
       self.trigger('display', $interaction);
 
-      if(self.getRequiresCompletion()
-        && player.currentState !== H5P.InteractiveVideo.SEEKING
-        && player.editor === undefined
-        && !self.hasFullScore())
-      {
+      if (self.getRequiresCompletion() &&
+          player.currentState !== H5P.InteractiveVideo.SEEKING &&
+          player.editor === undefined &&
+          !self.hasFullScore()) {
         showOverlayMask($interaction);
       }
 
@@ -642,9 +640,9 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
         showContinueButton = !self.getRequiresCompletion() || fullScore;
 
         // Determine adaptivity
-        if(fullScore){
+        if (fullScore) {
           adaptivity = parameters.adaptivity.correct;
-        } else if(!fullScore && !self.getRequiresCompletion()){
+        } else if (!fullScore) {
           adaptivity = parameters.adaptivity.wrong;
         }
       }
@@ -688,11 +686,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       // add and show adaptivity button, hide continue button
       instance.hideButton('iv-continue')
         .addButton('iv-adaptivity-' + adaptivityId, adaptivityLabel, function () {
-          closeInteraction();
-
-          if (!self.getRequiresCompletion() && !adaptivity.allowOptOut) {
-            hideOverlayMask($interaction);
-          }
+          closeInteraction(adaptivity.seekTo);
 
           // Reset interaction
           if (!fullScore && instance.resetTask) {
@@ -831,7 +825,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       return {
         from: parameters.duration.from,
         to: parameters.duration.to
-      }
+      };
     };
 
     /**
@@ -858,7 +852,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      * @returns {boolean}
      */
     self.isButton = function () {
-      return parameters.displayType === 'button' || library === 'H5P.Nil' || (player.isMobileView && library !== 'H5P.IVHotspot');
+      return parameters.displayType === 'button' || library === 'H5P.Nil' || (player.isMobileView && library !== 'H5P.IVHotspot' && library !== 'H5P.GoTo');
     };
 
     /**
@@ -866,7 +860,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      *
      * @returns {boolean}
      */
-    self.isMainSummary = function() {
+    self.isMainSummary = function () {
       return parameters.mainSummary === true;
     };
 
@@ -920,8 +914,18 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      *
      * @return {boolean}
      */
-    self.isVisible = function(){
+    self.isVisible = function () {
       return isVisible;
+    };
+
+    /**
+     * Check if the interaction is visible at the given second
+     *
+     * @param {number} second
+     * @return {boolean}
+     */
+    self.visibleAt = function (second) {
+      return !(second < parameters.duration.from || second > parameters.duration.to);
     };
 
     /**
@@ -932,7 +936,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      */
     self.toggle = function (second) {
       second = Math.floor(second);
-      if (second < parameters.duration.from || second > parameters.duration.to) {
+      if (!self.visibleAt(second)) {
         isVisible = false;
 
         if ($interaction) {
@@ -988,6 +992,9 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       return $interaction;
     };
 
+    /**
+     * TODO
+     */
     self.setTitle = function (customTitle) {
       if ($interaction) {
         $interaction.attr('aria-label', customTitle);
@@ -1000,8 +1007,8 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      */
     self.reCreateInteraction = function () {
 
-      // Do not recreate IVHotspot since it should always be a poster
-      if (library === 'H5P.IVHotspot') {
+      // Do not recreate IVHotspot or IVGoTo since they should always be a poster
+      if (library === 'H5P.IVHotspot' || library === 'H5P.IVGoto') {
         return;
       }
 
@@ -1019,6 +1026,9 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
       }
     };
 
+    /**
+     * TODO
+     */
     self.resizeInteraction = function () {
       if (library !== 'H5P.Nil') {
         H5P.trigger(instance, 'resize');
@@ -1114,13 +1124,19 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
 
           // Handle question/task finished
           instance.on('xAPI', function (event) {
-            if ((event.getMaxScore() && event.getScore() !== null) &&
-                event.getVerb() === 'completed' ||
-                event.getVerb() === 'answered') {
+            var parents = event.getVerifiedStatementValue(['context', 'contextActivities', 'parent']) || [];
+            var interactiveVideoId = event.getContentXAPIId(player);
+            var isCompletedOrAnswered = event.getVerb() === 'completed' || event.getVerb() === 'answered';
+            var isInteractiveVideoParent = parents.some(function(parent){
+              return parent.id === interactiveVideoId;
+            });
+
+            if (isInteractiveVideoParent && isCompletedOrAnswered && (event.getMaxScore() && event.getScore() !== null)) {
               self.score = event.getScore();
               self.maxScore = event.getMaxScore();
               adaptivity();
             }
+
             self.trigger(event);
           });
 
@@ -1142,6 +1158,9 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
           if (library === 'H5P.GoToQuestion') {
             instance.on('chosen', goto);
           }
+          if (library === 'H5P.IVGoTo') {
+            instance.on('goto', goto);
+          }
         }
       }
     };
@@ -1153,7 +1172,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      * @param obj Object to check
      * @returns {boolean} If the object has getScore and getMaxScore
      */
-    var hasScoreData = function (obj){
+    var hasScoreData = function (obj) {
       return (
         (typeof obj !== typeof undefined) &&
         (typeof obj.getScore === 'function') &&
@@ -1180,7 +1199,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      *
      * @returns {boolean}
      */
-    self.hasFullScore = function(){
+    self.hasFullScore = function () {
       return self.score >= self.maxScore;
     };
 
@@ -1234,6 +1253,20 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
     };
 
     /**
+      * Get xAPI data.
+      * Contract used by report rendering engine.
+      *
+      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+     * @returns {Object} xAPI Data
+     */
+    self.getXAPIData = function () {
+      if (instance && (instance.getXAPIData instanceof Function ||
+                       typeof instance.getXAPIData === 'function')) {
+        return instance.getXAPIData();
+      }
+    }
+
+    /**
      * Returns unique content id
      * @returns {String} Sub content Id
      */
@@ -1272,7 +1305,7 @@ H5P.InteractiveVideoInteraction = (function ($, EventDispatcher) {
      */
     self.repositionToWrapper = function ($wrapper) {
 
-      if ($interaction && library !== 'H5P.IVHotspot') {
+      if ($interaction && library !== 'H5P.IVHotspot' && library !== 'H5P.IVGoTo') {
 
         // Reset positions
         if (isRepositioned) {

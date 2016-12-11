@@ -18,6 +18,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * @param {Object} contentData
    */
   function InteractiveVideo(params, id, contentData) {
+    console.log('INTERACTIVEVIDEO');
     var self = this;
     var startAt;
 
@@ -108,7 +109,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
     // Detect whether to add interactivies or just display a plain video.
     self.justVideo = false;
     var iOSMatches = navigator.userAgent.match(/(iPhone|iPod) OS (\d*)_/i);
-    if(iOSMatches !== null && iOSMatches.length === 3) {
+    if (iOSMatches !== null && iOSMatches.length === 3) {
       // If iOS < 10, let's play video only...
       self.justVideo = iOSMatches[2] < 10;
     }
@@ -616,7 +617,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
       var isYouTube = (self.video.pressToPlay !== undefined);
 
       // Consider pausing the playback
-      delayWork(isYouTube ? 100 : null, function () {
+      delayWork(isYouTube ? 100 : null, function () {
         var isPlaying = self.currentState === H5P.Video.PLAYING ||
             self.currentState === H5P.Video.BUFFERING;
         if (isPlaying && interaction.pause()) {
@@ -631,7 +632,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
     });
 
     // handle xAPI event
-    interaction.on('xAPI', function(event) {
+    interaction.on('xAPI', function (event) {
       // update state
       if ($.inArray(event.getVerb(), ['completed', 'answered']) !== -1) {
         event.setVerb('answered');
@@ -660,7 +661,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    *   true if this interactive video has a summary
    *   false otherwise
    */
-  InteractiveVideo.prototype.hasMainSummary = function() {
+  InteractiveVideo.prototype.hasMainSummary = function () {
     var summary = this.options.summary;
     return !(summary === undefined ||
         summary.displayAt === undefined ||
@@ -980,7 +981,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
       });
       self.controls.$bookmarksChooser.bind('transitionend', function () {
         self.controls.$bookmarksChooser.removeClass('h5p-transitioning');
-      })
+      });
     }
 
     // Current time for minimal display
@@ -1568,7 +1569,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
         this.isMobileView = true;
 
         // should not close overlay for required interactions, but still show dialog
-        if(this.hasUncompletedRequiredInteractions()) {
+        if (this.hasUncompletedRequiredInteractions()) {
           var $dialog = $('.h5p-dialog', this.$container);
           $dialog.show();
         } else {
@@ -1808,7 +1809,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    *
    * @public
    */
-  InteractiveVideo.prototype.complete = function() {
+  InteractiveVideo.prototype.complete = function () {
     // Skip for editor
     if (this.editor) {
       return;
@@ -1826,7 +1827,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Gets the users score
    * @returns {number}
    */
-  InteractiveVideo.prototype.getUsersScore = function() {
+  InteractiveVideo.prototype.getUsersScore = function () {
     var score = 0;
 
     for (var i = 0; i < this.interactions.length; i++) {
@@ -1842,7 +1843,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Gets the users max score
    * @returns {number}
    */
-  InteractiveVideo.prototype.getUsersMaxScore = function() {
+  InteractiveVideo.prototype.getUsersMaxScore = function () {
     var maxScore = 0;
 
     for (var i = 0; i < this.interactions.length; i++) {
@@ -1858,7 +1859,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Implements getScore from the question type contract
    * @returns {number}
    */
-  InteractiveVideo.prototype.getScore = function() {
+  InteractiveVideo.prototype.getScore = function () {
     return this.getUsersScore();
   };
 
@@ -1866,7 +1867,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Implements getMaxScore from the question type contract
    * @returns {number}
    */
-  InteractiveVideo.prototype.getMaxScore = function() {
+  InteractiveVideo.prototype.getMaxScore = function () {
     return this.getUsersMaxScore();
   };
 
@@ -1876,15 +1877,15 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    *
    * @return {jQuery} the dialog wrapper element
    */
-  InteractiveVideo.prototype.showOverlayMask = function(){
+  InteractiveVideo.prototype.showOverlayMask = function () {
     var self = this;
 
     self.$videoWrapper.addClass('h5p-disable-opt-out');
     self.dnb.dialog.openOverlay();
 
     var $dialogWrapper = self.$container.find('.h5p-dialog-wrapper');
-    $dialogWrapper.click(function(){
-      if(self.hasUncompletedRequiredInteractions()){
+    $dialogWrapper.click(function () {
+      if (self.hasUncompletedRequiredInteractions()) {
         self.showWarningMask();
       }
     });
@@ -1894,7 +1895,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Hides the mask behind the interaction
    * @return {jQuery} the dialog wrapper element
    */
-  InteractiveVideo.prototype.hideOverlayMask = function(){
+  InteractiveVideo.prototype.hideOverlayMask = function () {
     var self = this;
 
     self.dnb.dialog.closeOverlay();
@@ -1908,11 +1909,11 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Shows the warning mask.
    * The mask is shared by all interactions
    */
-  InteractiveVideo.prototype.showWarningMask = function(){
+  InteractiveVideo.prototype.showWarningMask = function () {
     var self = this;
 
     // create mask if doesn't exist
-    if(!self.$mask) {
+    if (!self.$mask) {
       self.$mask = $(
         '<div class="h5p-warning-mask">' +
           '<div class="h5p-warning-mask-wrapper">' +
@@ -1932,13 +1933,18 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Returns true if there are visible interactions that require completed
    * and the user doesn't have full score
    *
+   * @param {number} second
    * @returns {boolean} If any required interaction is not completed with full score
    */
-  InteractiveVideo.prototype.hasUncompletedRequiredInteractions = function(){
+  InteractiveVideo.prototype.hasUncompletedRequiredInteractions = function (second) {
     var self = this;
 
-    return self.getVisibleInteractions().some(function(interaction){
-      return interaction.getRequiresCompletion() && !interaction.hasFullScore();
+    // Find interactions
+    var interactions = (second !== undefined ?
+        self.getVisibleInteractionsAt(second) : self.getVisibleInteractions());
+
+    return interactions.some(function (interaction) {
+      return interaction.getRequiresCompletion () && !interaction.hasFullScore();
     });
   };
 
@@ -1947,16 +1953,27 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    *
    * @return {H5P.InteractiveVideoInteraction[]} visible interactions
    */
-  InteractiveVideo.prototype.getVisibleInteractions = function() {
-    return this.interactions.filter(function(interaction){
+  InteractiveVideo.prototype.getVisibleInteractions = function () {
+    return this.interactions.filter(function (interaction) {
       return interaction.isVisible();
+    });
+  };
+
+  /**
+   * Returns an array of interactions currently visible
+   *
+   * @return {H5P.InteractiveVideoInteraction[]} visible interactions
+   */
+  InteractiveVideo.prototype.getVisibleInteractionsAt = function (second) {
+    return this.interactions.filter(function (interaction) {
+      return interaction.visibleAt(second);
     });
   };
 
   /**
    * Implements showSolutions from the question type contract
    */
-  InteractiveVideo.prototype.showSolutions = function() {
+  InteractiveVideo.prototype.showSolutions = function () {
     // Intentionally left empty. Function makes IV pop up in CP summary
   };
 
@@ -1964,7 +1981,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * Implements getTitle from the question type contract
    * @returns {string}
    */
-  InteractiveVideo.prototype.getTitle = function() {
+  InteractiveVideo.prototype.getTitle = function () {
     return H5P.createTitle(this.options.video.startScreenOptions.title);
   };
 
@@ -2126,7 +2143,7 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
    * @param {number} time null to carry out straight away
    * @param {function} job what to do
    */
-  var delayWork = function (time, job) {
+  var delayWork = function (time, job) {
     if (time === null) {
       job();
     }
@@ -2134,6 +2151,66 @@ H5P.InteractiveVideo = (function ($, EventDispatcher, DragNBar, Interaction) {
       setTimeout(job, time);
     }
   };
+
+  /**
+   * Get xAPI data.
+   * Contract used by report rendering engine.
+   *
+   * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+   */
+  InteractiveVideo.prototype.getXAPIData = function(){
+    var self = this;
+    var xAPIEvent = this.createXAPIEventTemplate('answered');
+    addQuestionToXAPI(xAPIEvent);
+    xAPIEvent.setScoredResult(self.getScore(),
+      self.getMaxScore(),
+      self,
+      true,
+      self.getScore() === self.getMaxScore()
+    );
+
+    var childrenData = getXAPIDataFromChildren(self.interactions);
+    return {
+      statement: xAPIEvent.data.statement,
+      children: childrenData
+    }
+  };
+
+  /**
+   * Add the question itself to the definition part of an xAPIEvent
+   */
+  var addQuestionToXAPI = function(xAPIEvent) {
+    var definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
+    H5P.jQuery.extend(definition, getxAPIDefinition());
+  };
+
+  /**
+   * Generate xAPI object definition used in xAPI statements.
+   * @return {Object}
+   */
+  var getxAPIDefinition = function () {
+    var definition = {};
+
+    definition.interactionType = 'compound';
+    definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
+    definition.description = {
+      'en-US': ''
+    };
+
+    return definition;
+  };
+
+  /**
+   * Get xAPI data from instances within a content type
+   *
+   * @param {Object} H5P instances
+   * @returns {array}
+   */
+  var getXAPIDataFromChildren = function(children) {
+    return children.map(function(child) {
+       return child.getXAPIData();
+    });
+  }
 
   return InteractiveVideo;
 })(H5P.jQuery, H5P.EventDispatcher, H5P.DragNBar, H5P.InteractiveVideoInteraction);
