@@ -342,6 +342,25 @@
   height: auto;
 }
 
+.h5p-interactive-video .h5p-interaction-inner .h5p-info-wrapper,
+.h5p-interactive-video .h5p-dialog-inner .h5p-info-wrapper {
+  margin: 1em;
+}
+
+.h5p-interactive-video .h5p-interaction-inner .h5p-click-blocker,
+.h5p-interactive-video .h5p-dialog-inner .h5p-click-blocker {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.h5p-interactive-video .h5p-interaction-inner .h5p-question-iv-adaptivity-wrong,
+.h5p-interactive-video .h5p-dialog-inner .h5p-question-iv-adaptivity-wrong {
+  margin-top: 1em;
+}
+
 .h5p-interactive-video .h5p-interaction.h5p-poster {
   z-index: 1;
   background: #fff;

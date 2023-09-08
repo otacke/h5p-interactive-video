@@ -68,6 +68,25 @@ const isScrollableLibrary = function (library) {
 };
 
 /**
+ * Hide element and all children from tab index.
+ * @param {HTMLElement} element HTML element.
+ */
+const hideFromTab = (element) => {
+  if (element.classList.contains('h5p-keep-tabs')) {
+    return;
+  }
+
+  element.removeAttribute('tabindex');
+  if (['button, input'].includes(element.tagName.toLowerCase())) {
+    element.setAttribute('tabindex', '-1');
+  }
+
+  [...element.children].forEach((child) => {
+    hideFromTab(child);
+  });
+};
+
+/**
  * @typedef {Object} Parameters Interaction settings
  * @property {Object} action Library
  * @property {string|undefined} contentName Title of library
@@ -117,8 +136,20 @@ function Interaction(parameters, player, previousState) {
   var $interaction, $label, $inner, $outer;
   var action = parameters.action;
   if (previousState) {
+    /*
+     * Ensure that previous states in old format still work. Too bad that
+     * getCurrentState returned instance state directly once instead of
+     * wrapping it in object. Using attemptsLeftIVInteraction as identifier.
+     */
+    if (typeof previousState.attemptsLeftIVInteraction !== 'number') {
+      previousState = {
+        attemptsLeftIVInteraction: 1,
+        instance: previousState
+      }
+    }
+
     action.userDatas = {
-      state: previousState
+      state: previousState.instance
     };
   }
 
@@ -154,6 +185,10 @@ function Interaction(parameters, player, previousState) {
 
   // Metadata that might be used by forms
   var metadata = parameters.action.metadata;
+
+  // Keep track of the number of attemps left = first attempt + retries
+  let attemptsLeft = previousState?.attemptsLeftIVInteraction ??
+    (1 + (parameters.adaptivity?.wrong?.maxRetries ?? 0));
 
   this.on('open-dialog', function () {
     openDialog();
@@ -455,6 +490,76 @@ function Interaction(parameters, player, previousState) {
   };
 
   /**
+   * Block user interaction from interaction.
+   * @param {HTMLElement} instanceParent DOM wrapper of H5P instance.
+   */
+  const blockInteraction = (instanceParent) => {
+    // checkin maxRetries will keep current behavior
+    if (attemptsLeft === 0 && parameters.adaptivity.wrong.maxRetries > 0) {
+      const adapTivityWrong = parameters.adaptivity.wrong ?? {}
+      const adaptivityLabel = adapTivityWrong.seekLabel ??
+        player.l10n.defaultAdaptivitySeekLabel;
+
+      instance.disableInput?.();
+
+      // Prevent clicking on instance
+      const clickBlocker = document.createElement('div');
+      clickBlocker.classList.add('h5p-click-blocker')
+      instanceParent.append(clickBlocker);
+
+      // Information for user
+      const infoWrapper = document.createElement('div');
+      infoWrapper.classList.add('h5p-info-wrapper');
+      infoWrapper.classList.add('h5p-keep-tabs');
+      instanceParent.append(infoWrapper);
+
+      const messageDOM = document.createElement('div');
+      messageDOM.classList.add('h5p-plain-message');
+      messageDOM.innerText = player.l10n.noAttemptsLeftMessage;
+      infoWrapper.append(messageDOM);
+
+      // Continue button apart from H5P.Question as this needs to be clickable
+      const continueButton = document.createElement('button');
+      continueButton.classList.add('h5p-question-iv-adaptivity-wrong');
+      continueButton.classList.add('h5p-joubelui-button');
+      continueButton.innerText = adaptivityLabel;
+      continueButton.addEventListener('click', function() {
+        closeInteraction(adapTivityWrong.seekTo);
+
+        // Reset interaction
+        if (instance.resetTask) {
+          instance.resetTask();
+          continueButton.remove();
+        }
+
+        self.remove();
+        continueWithVideo(adapTivityWrong.seekTo);
+      });
+      infoWrapper.append(continueButton);
+
+      window.requestAnimationFrame(() => {
+        // Prevent tabbing to instance elements
+        hideFromTab(instanceParent);
+
+        // Set buttons as needed.
+        instance
+          .hideButton('iv-continue', 1)
+          .hideButton('iv-adaptivity-correct', 1)
+          .hideButton('iv-adaptivity-wrong', 1)
+          .hideButton('check-answer', 1)
+          .hideButton('show-solution', 1)
+          .hideButton('try-again', 1);
+
+        window.setTimeout(() => {
+          continueButton.focus();
+        }, 100); // Ensure read() is reading first
+      });
+
+      instance.read(player.l10n.noAttemptsLeftMessage);
+    }
+  };
+
+  /**
    * Opens button dialog.
    *
    * @private
@@ -503,7 +608,14 @@ function Interaction(parameters, player, previousState) {
     // Attach instance to dialog and open
     var $instanceParent = isGotoClickable ? makeInteractionGotoClickable($dialogContent) : $dialogContent;
     instance.attach($instanceParent);
-    addContinueButton($instanceParent);
+
+    // checkin maxRetries will keep current behavior
+    if (attemptsLeft === 0 && parameters.adaptivity.wrong.maxRetries > 0) {
+      blockInteraction($instanceParent.get(0));
+    }
+    else {
+      addContinueButton($instanceParent);
+    }
 
     // Some content types does not get score until they are attached.
     // Re-check score after attaching to dialog
@@ -876,7 +988,14 @@ function Interaction(parameters, player, previousState) {
 
     var $instanceParent = isGotoClickable ? makeInteractionGotoClickable($inner) : $inner;
     instance.attach($instanceParent);
-    addContinueButton($instanceParent);
+
+    // checkin maxRetries will keep current behavior
+    if (attemptsLeft === 0 && parameters.adaptivity.wrong.maxRetries > 0) {
+      blockInteraction($instanceParent.get(0));
+    }
+    else {
+      addContinueButton($instanceParent);
+    }
 
     // Trigger event listeners
     self.trigger('display', $interaction);
@@ -955,37 +1074,71 @@ function Interaction(parameters, player, previousState) {
     var adaptivityId = (fullScore ? 'correct' : 'wrong');
     var adaptivityLabel = adaptivity.seekLabel ? adaptivity.seekLabel : player.l10n.defaultAdaptivitySeekLabel;
 
-    // add and show adaptivity button, hide continue button
-    instance.hideButton('iv-continue')
-      .addButton('iv-adaptivity-' + adaptivityId, adaptivityLabel, function () {
-        closeInteraction(adaptivity.seekTo);
+    attemptsLeft = Math.max(0, attemptsLeft - 1);
 
-        // Reset interaction
-        if (!fullScore && instance.resetTask) {
-          instance.resetTask();
-          instance.hideButton('iv-adaptivity-' + adaptivityId);
-        }
+    const retryMessage = (parameters.adaptivity.wrong.maxRetries > 0) ?
+      player.l10n.attemptsLeft.replace(/@attempts/g, attemptsLeft) :
+      '';
 
-        self.remove();
-        continueWithVideo(adaptivity.seekTo);
-      })
-      .showButton('iv-adaptivity-' + adaptivityId, 1)
-      .hideButton('iv-adaptivity-' + (fullScore ? 'wrong' : 'correct'), 1)
-      .hideButton('check-answer', 1)
-      .hideButton('show-solution', 1)
-      .hideButton('try-again', 1);
+    if (!fullScore && attemptsLeft > 0) {
+      // User still has attempts left, allow interaction that editor did not prevent.
+      instance
+        .hideButton('iv-continue')
+        .hideButton('iv-adaptivity-correct', 1)
+        .hideButton('iv-adaptivity-wrong', 1)
+        .showButton('try-again', 1); // Ignoring enableRetryButton setting
+    }
+    else {
+      // add and show adaptivity button, hide continue button
+      instance.hideButton('iv-continue')
+        .addButton(
+          'iv-adaptivity-' + adaptivityId, adaptivityLabel, function () {
+            closeInteraction(adaptivity.seekTo);
+
+            // Reset interaction
+            if (!fullScore && instance.resetTask) {
+              instance.resetTask();
+              instance.hideButton('iv-adaptivity-' + adaptivityId);
+            }
+
+            self.remove();
+            continueWithVideo(adaptivity.seekTo);
+          }
+        )
+        .showButton('iv-adaptivity-' + adaptivityId, 1)
+        .hideButton('iv-adaptivity-' + (fullScore ? 'wrong' : 'correct'), 1)
+        .hideButton('check-answer', 1)
+        .hideButton('show-solution', 1)
+        .hideButton('try-again', 1);
+    }
 
     // Disable any input
-    if (instance.disableInput !== undefined &&
-        (instance.disableInput instanceof Function ||
-         typeof instance.disableInput === 'function')) {
+    if (
+      instance.disableInput !== undefined &&
+      (instance.disableInput instanceof Function ||
+        typeof instance.disableInput === 'function')
+    ) {
       instance.disableInput();
     }
 
     // Wait for any modifications Question does to feedback and buttons
     setTimeout(function () {
       // Strip adaptivity message of p tags
-      const message = adaptivity.message.replace('<p>', '').replace('</p>', '');
+      let message = adaptivity.message
+        .trim()
+        .replace('<p>', '').replace('</p>', '');
+
+      if (adaptivity.maxRetries > 0) {
+        if (
+          message.length > 0 &&
+          !['.', '!', '?'].includes(message.substring(message.length - 1))
+        ) {
+          message = `${message}. `;
+        }
+
+        message = `${message}${retryMessage}`;
+      }
+
       // Set adaptivity message and hide interaction flow controls
       instance.updateFeedbackContent(message, true);
       instance.read(message);
@@ -1088,9 +1241,14 @@ function Interaction(parameters, player, previousState) {
    * @returns {Object}
    */
   self.getCurrentState = function () {
-    if (instance && (instance.getCurrentState instanceof Function ||
-                     typeof instance.getCurrentState === 'function')) {
-      return instance.getCurrentState();
+    if (
+      instance?.getCurrentState instanceof Function ||
+      typeof instance?.getCurrentState === 'function'
+    ) {
+      return {
+        attemptsLeftIVInteraction: attemptsLeft,
+        instance: instance.getCurrentState()
+      };
     }
   };
 
@@ -1795,6 +1953,8 @@ function Interaction(parameters, player, previousState) {
     if (typeof self.getInstance()?.resetTask === 'function') {
       self.getInstance().resetTask();
     }
+
+    attemptsLeft = 1 + (parameters.adaptivity?.wrong?.maxRetries ?? 0);
 
     self.reCreate();
   };

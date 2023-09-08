@@ -144,6 +144,10 @@
                             "description": "M:SS 형식으로 시간코드 입력"
                           },
                           {
+                            "label": "Allowed retries",
+                            "description": "Enter the number of times that the user is allowed to retry before being sent to the \"seek to\" position. Leave empty for no retry allowed."
+                          },
+                          {
                             "label": "사용자가 그만두고 나가 계속하도록 허용"
                           },
                           {
@@ -501,6 +505,15 @@
         {
           "label": "Text for how to create interactions",
           "default": "Play the video to start creating interactions"
+        },
+        {
+          "label": "Information that there are no attempts left for this exercise",
+          "default": "You do not have any attempts left for this exercise."
+        },
+        {
+          "label": "Information on how many retries for an interaction are left",
+          "description": "@attempts is a placeholder and will be replaced with the respective number of attempts left.",
+          "default": "Number of attempts left: @attempts"
         }
       ]
     }

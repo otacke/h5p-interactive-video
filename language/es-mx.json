@@ -144,6 +144,10 @@
                             "description": "Introduzca el código de tiempo en el formato M:SS"
                           },
                           {
+                            "label": "Allowed retries",
+                            "description": "Enter the number of times that the user is allowed to retry before being sent to the \"seek to\" position. Leave empty for no retry allowed."
+                          },
+                          {
                             "label": "Permitir al usuario no responder y continuar"
                           },
                           {
@@ -501,6 +505,15 @@
         {
           "label": "Texto para como crear interacciones",
           "default": "Reproducir el video para comenzar a crear interacciones"
+        },
+        {
+          "label": "Information that there are no attempts left for this exercise",
+          "default": "You do not have any attempts left for this exercise."
+        },
+        {
+          "label": "Information on how many retries for an interaction are left",
+          "description": "@attempts is a placeholder and will be replaced with the respective number of attempts left.",
+          "default": "Number of attempts left: @attempts"
         }
       ]
     }

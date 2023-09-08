@@ -340,6 +340,14 @@
                           "description": "Enter timecode in the format M:SS"
                         },
                         {
+                          "name": "maxRetries",
+                          "type": "number",
+                          "min": 0,
+                          "label": "Allowed retries",
+                          "description": "Enter the number of times that the user is allowed to retry before being sent to the \"seek to\" position. Leave empty for no retry allowed.",
+                          "optional": true
+                        },
+                        {
                           "name": "allowOptOut",
                           "type": "boolean",
                           "label": "Allow the user to opt out and continue"
@@ -1133,6 +1141,23 @@
         "label": "Information on how to start creating interactions",
         "importance": "low",
         "default": "Play the video to start creating interactions",
+        "optional": true
+      },
+      {
+        "name": "noAttemptsLeftMessage",
+        "type": "text",
+        "label": "Information that there are no attempts left for this exercise",
+        "importance": "low",
+        "default": "You do not have any attempts left for this exercise.",
+        "optional": true
+      },
+      {
+        "name": "attemptsLeft",
+        "type": "text",
+        "label": "Information on how many retries for an interaction are left",
+        "description": "@attempts is a placeholder and will be replaced with the respective number of attempts left.",
+        "importance": "low",
+        "default": "Number of attempts left: @attempts",
         "optional": true
       }
     ]

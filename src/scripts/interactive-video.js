@@ -149,7 +149,9 @@ function InteractiveVideo(params, id, contentData) {
     content: 'Content',
     answered: '@answered answered!',
     videoProgressBar: 'Video progress',
-    howToCreateInteractions: 'Play the video to start creating interactions'
+    howToCreateInteractions: 'Play the video to start creating interactions',
+    numberOfRetriesLeft: 'Number of attempts left: @attempts',
+    noAttemptsLeftMessage: 'You do not have any attempts left for this exercise.'
   }, params.l10n);
 
   // Add shortcut key to label
