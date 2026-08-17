@@ -261,6 +261,10 @@
           "description": "Cochez cette case pour que la vidéo tourne en boucle"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Cacher le bouton \"Voir la solution\"",
           "description": "Cette option détermine si le bouton \"Voir la solution\" sera affiché ou masqué pour toutes les questions, ou configurable pour chaque question individuellement.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Vos réponses ont été remises !"
         },
         {
-          "label": "Titre de rangée du tableau de l'écran de remise : Questions avec réponses",
-          "default": "Questions auxquelles vous avez répondu"
-        },
-        {
           "label": "Titre de rangée du tableau de l'écran de remise : Score",
           "default": "Score"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Score de la réponse sur l'écran de remise",

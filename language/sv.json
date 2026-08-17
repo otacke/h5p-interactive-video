@@ -261,6 +261,10 @@
           "description": "Aktivera för att visa video i lopp"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Ersätt knapp \"Visa rätt svar\"",
           "description": "Denna inställning avgör om knappen \"Visa rätt svar\" ska visas för alla frågor, döljas på alla frågor eller konfigureras individuellt på varje fråga.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Dina svar har lämnats in!"
         },
         {
-          "label": "Titel för tabell på inlämingssida: Besvarade frågor",
-          "default": "Besvarade frågor"
-        },
-        {
           "label": "Titel för tabelll på inlämningssida: Poäng",
           "default": "Poäng"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Inlämningssida svarspoäng",

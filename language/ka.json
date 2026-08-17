@@ -261,6 +261,10 @@
           "description": "დააჭირეთ, თუ ვიდეო უნდა იყოს ჩართული უწყვეტად"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "გადააწერე \"პასუხის ჩვენების\" ღილაკს",
           "description": "ამ პარამეტრით განისაზღვრება \"აჩვენე ამოხსნის\" ღილაკის ჩვენება ყველა შეკითხვისთვის.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "თქვენი პასუხები წარმოდგენილია!"
         },
         {
-          "label": "გაგზავნის გვერდის ცხრილის მწკრივის სათაური: პასუხგაცემული შეკითხვები",
-          "default": "პასუხგაცემული შეკითხვები"
-        },
-        {
           "label": "გაგზავნის გვერდის ცხრილის მწკრივის სათაური: ქულა",
           "default": "Score"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "გაგზავნის გვერდის პასუხგაცემული ქულა",

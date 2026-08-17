@@ -261,6 +261,10 @@
           "description": "在影片播放完後會重新播放"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "覆寫「顯示正解」按鈕",
           "description": "如果所有問題都設定了「顯示正解」按鈕，會個別單獨顯示這些按鈕。啟用後，則可以統一一次顯示。",
           "options": [
@@ -479,12 +483,12 @@
           "default": "已提交你的答案！"
         },
         {
-          "label": "提交畫面表單中已回答題數的標題",
-          "default": "已回答題數"
-        },
-        {
           "label": "提交畫面表單中總分的標題",
           "default": "總分"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "提交畫面表單中得分的標題",

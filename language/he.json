@@ -261,6 +261,10 @@
           "description": "בדקו האם הסרטון אמור לרוץ בלולאה"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "דריסת כפתור \"הצגת פתרון\"",
           "description": "אפשרות זו קובעת האם כפתור \"הצגת פתרון\" יוצג עבור כל השאלות, ינוטרל עבור כולן או יוגדר עבור כל שאלה בנפרד.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "התשובות הוגשו!"
         },
         {
-          "label": "כותרת שורת טבלה במסך הגשה: תשובות עם מענה",
-          "default": "תשובות עם מענה"
-        },
-        {
           "label": "שמירת כותרת שורת טבלת :title ציון",
           "default": "ציון"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "שמירת ציוני עמוד מענים",

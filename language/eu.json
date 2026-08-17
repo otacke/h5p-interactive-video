@@ -261,6 +261,10 @@
           "description": "Egiaztatzen du bideoa begizta moduan erreproduzitzen dela"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Baliogabetu \"Erakutsi emaitza\" botoia",
           "description": "Opzio honek adierazten du \"Erakutsi emaitza\" botoia erakutsi behar den galdera guztietan, bat ere ez edo galdera bakoitzerako ezartzen den.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Zure erantzunak bidali dira!"
         },
         {
-          "label": "Bidali pantaila taularen lerroaren titulua: Erantzundako galdera kopurua",
-          "default": "Erantzundako galdera kopurua"
-        },
-        {
           "label": "Bidali pantaila taularen lerroaren titulua: Puntuazioa",
           "default": "Puntuazioa"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Bidali erantzunen puntuazioaren pantaila",

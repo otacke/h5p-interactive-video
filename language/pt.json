@@ -261,6 +261,10 @@
           "description": "Marque se deve repetir o vídeo quando terminar"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Sobrepor botão \"Mostrar solução\"",
           "description": "Esta opção determina se o botão \"Mostrar solução\" será mostrado para todas as perguntas, se estará desativado para todas ou configurado individualmente para cada pergunta.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "As suas respostas foram submetidas!"
         },
         {
-          "label": "Título da linha da tabela do ecrã de submissão: Perguntas respondidas",
-          "default": "Perguntas respondidas"
-        },
-        {
           "label": "Título da linha da tabela do ecrã de submissão: Pontuação",
           "default": "Pontuação"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Pontuação das perguntas respondidas no ecrã de submissão",

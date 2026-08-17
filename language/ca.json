@@ -261,6 +261,10 @@
           "description": "Marqueu aquesta opció si el vídeo s’ha de reproduir en bucle"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Substitueix el botó \"Mostra la solució\"",
           "description": "Aquesta opció determina si el botó \"Mostra la solució\" es mostrarà per a totes les preguntes, es desactivarà per a totes o es configurarà per a cada pregunta individualment.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "S’han enviat les respostes!"
         },
         {
-          "label": "Títol per a la fila de la taula de la pantalla d’enviament: Preguntes respostes",
-          "default": "Preguntes respostes"
-        },
-        {
           "label": "Títol per a la fila de la taula de la pantalla d’enviament: Puntuació",
           "default": "Puntuació"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Puntuació de les respostes a la pantalla d’enviament",

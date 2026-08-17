@@ -261,6 +261,10 @@
           "description": "Check if video should run in a loop"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Override \"Show Solution\" button",
           "description": "This option determines if the \"Show Solution\" button will be shown for all questions, disabled for all or configured for each question individually.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "ចម្លើយរបស់អ្នកត្រូវបានប្រគល់ដោយជោគជ័យ!"
         },
         {
-          "label": "Submit screen table row title: Answered questions",
-          "default": "សំណួរដែលបានឆ្លើយ"
-        },
-        {
           "label": "Submit screen table row title: Score",
           "default": "ពិន្ទុ"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Submit screen answered score",

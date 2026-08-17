@@ -261,6 +261,10 @@
           "description": "Pažymėkite jei vaizdo įrašas turi būti rodomas ciklo būdu"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Keisti mygtuką „Rodyti sprendimą“",
           "description": "This option determines if the \"Show Solution\" button will be shown for all questions, disabled for all or configured for each question individually.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Your answers have been submitted!"
         },
         {
-          "label": "Submit screen table row title: Answered questions",
-          "default": "Answered questions"
-        },
-        {
           "label": "Submit screen table row title: Score",
           "default": "Balas"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Submit screen answered score",

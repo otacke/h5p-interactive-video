@@ -261,6 +261,10 @@
           "description": "Označte, či sa má video spúšťať v slučke"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Prepísať tlačidlo „Zobraziť riešenie“",
           "description": "Táto možnosť určuje, či sa tlačidlo „Zobraziť riešenie“ zobrazí pre všetky otázky, či bude pre všetky zakázané, alebo či bude nakonfigurované pre každú otázku jednotlivo.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Vaše odpovede boli odoslané!"
         },
         {
-          "label": "Odoslať názov riadku tabuľky obrazovky: Zodpovedané otázky",
-          "default": "Zodpovedané otázky"
-        },
-        {
           "label": "Odoslať názov riadku tabuľky obrazovky: Skóre",
           "default": "Skóre"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Obrazovka na odoslanie skóre odpovedí",

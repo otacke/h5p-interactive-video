@@ -261,6 +261,10 @@
           "description": "Controleer of de video opnieuw moet worden afgespeeld"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Overschrijf \"Toon oplossing\"-knop",
           "description": "Deze optie bepaalt of de \"Toon oplossing\"-knop voor alle vragen wordt getoond, uitgeschakeld of voor iedere vraag afzonderlijk wordt geconfigureerd.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Je antwoorden zijn verzonden!"
         },
         {
-          "label": "Tabelrijtitel van verzendscherm: Beantwoorde vragen",
-          "default": "Beantwoorde vragen"
-        },
-        {
           "label": "Tabelrijtitel van verzendscherm: Score",
           "default": "Score"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Verzendscherm: Beantwoorde score",

@@ -261,6 +261,10 @@
           "description": "Predlagan je premislek o smiselnosti predvajanja posnetka v zanki."
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Določi prikaz gumba \"Prikaži rešitev\"",
           "description": "Nastavitev vpliva na prikaz rešitve v vseh vprašanjih (npr. onemogočeno povsod, omogočeno individualno).",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Aktivnosti so potrjene!"
         },
         {
-          "label": "Naslov tabele Zaslona za potrditev odgovorov, stolpec: Opravljene aktivnosti",
-          "default": "Opravljene aktivnosti"
-        },
-        {
           "label": "Naslov tabele Zaslona za potrditev odgovorov, stolpec: Točke",
           "default": "Točke"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Sporočilo Zaslona za potrditev odgovorov o opravljeni aktivnosti",

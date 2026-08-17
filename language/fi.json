@@ -261,6 +261,10 @@
           "description": "Valitse toistaaksesi videota loputtomasti"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "\"Näytä vastaus\"-painike",
           "description": "Ota käyttöön kaikissa kysymyksissä, ei yhdessäkään, tai jätä tyhjäksi käyttääksesi tehtäväkohtaisia asetuksia",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Vastauksesi on nyt palautettu!"
         },
         {
-          "label": "Yhteenvetonäkymän 'vastattuja kysymyksiä' -otsikko",
-          "default": "Vastattuja kysymyksiä"
-        },
-        {
           "label": "Yhteenvetonäkymän teksti Pistettä",
           "default": "Pistettä"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Yhteenvetonäkymän vastattujen summa",

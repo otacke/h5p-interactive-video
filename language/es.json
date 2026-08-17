@@ -261,6 +261,10 @@
           "description": "Activar si el vídeo ha de reproducirse en bucle"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Anular botón \"Mostrar Solución\"",
           "description": "Esta opción determina si el botón \"Mostrar Solución\" se mostrará para todas las preguntas, se desactivará para todas o se configurará para cada pregunta individualmente.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "¡Se han enviado tus respuestas!"
         },
         {
-          "label": "Título de fila de tabla en pantalla de envío: Preguntas respondidas",
-          "default": "Preguntas respondidas"
-        },
-        {
           "label": "Título de fila de tabla de pantalla de envío: Puntaje",
           "default": "Puntaje"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Puntaje de preguntas respondidas en pantalla de envío",

@@ -261,6 +261,10 @@
           "description": "Video sürekli başa dönecekse işaretleyin"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "\"Çözümü göster\" butonunu geçersiz kıl",
           "description": "Bu seçenek \"Çözümü göster\" butonunun tüm sorular için gösterilip gösterilmeyeceğini belirler, varsayılan olarak tüm sorular için etkin değildir veya her bir soru için ayrı ayrı ayarlanabilir.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Cevaplarınız gönderildi!"
         },
         {
-          "label": "Cevapları gönderme ekranında tablo satır başlığı: Cevaplanan sorular",
-          "default": "Cevaplanan sorular"
-        },
-        {
           "label": "Cevapları gönderme ekranında tablo satır başlığı: Puan",
           "default": "Puan"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Cevapları gönderme ekranında cevaplama puanı",

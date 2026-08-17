@@ -261,6 +261,10 @@
           "description": "Kyk of video in 'n lusloop gewys moet word"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Oorskry \"Wys oplossing\" knoppie",
           "description": "Hierdie opsie bepaal of die \"Wys antwoord\" -knoppie vir alle vrae getoon word, vir almal uitgeskakel of afsonderlik vir elke vraag ingestel word.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Jou antwoorde is ingedien!"
         },
         {
-          "label": "Indienskerm tabelrytitel: Beantwoorde vrae",
-          "default": "Beantwoorde vrae"
+          "label": "Indienskerm tabelry titel: Telling",
+          "default": "Telling"
         },
         {
-          "label": "Indienskerm tabelrytitel: Telling",
-          "default": "Telling"
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Indienskerm beantwoorde telling",

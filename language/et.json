@@ -261,6 +261,10 @@
           "description": "Märgi, kui video peaks mängima korduses"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "\"Näita lahendust\" nupu olek",
           "description": "Selle valikuga määratakse, kas \"Näita lahendust\" nuppu näidatakse kõikidele küsimustele, keelatakse kõigil küsimustel või seadistatakse igale küsimusele eraldi.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Sinu vastused on esitatud!"
         },
         {
-          "label": "Esita kuva tabelirea pealkiri: Vastatud küsimused",
-          "default": "Vastatud küsimused"
-        },
-        {
           "label": "Esita kuva tabelirea pealkiri: Punktisumma",
           "default": "Punktisumma"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Esita kuva vastatud punktisumma",

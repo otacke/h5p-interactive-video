@@ -261,6 +261,10 @@
           "description": "Marcar para que o vídeo se reproduza continuamente"
         },
         {
+          "label": "Deactivate auto-pause",
+          "description": "Prevents video from pausing automatically if video gets hidden."
+        },
+        {
           "label": "Anular o botón \"Amosar Solución\"",
           "description": "Esta opción determina se aparece o botón \"Amosar Solución\" para todas as preguntas, se se desactiva para todas ou se se configura para cada pregunta individualmente.",
           "options": [
@@ -479,12 +483,12 @@
           "default": "Enviáronse as túas respostas!"
         },
         {
-          "label": "Título da fila da táboa da pantalla de envío: Preguntas respondidas",
-          "default": "Preguntas respondidas"
-        },
-        {
           "label": "Título da fila da táboa da pantalla de envío: Puntuación",
           "default": "Puntuación"
+        },
+        {
+          "label": "Submit screen question label",
+          "default": "Question"
         },
         {
           "label": "Puntuación de preguntas respondidas na pantalla de envío",
