@@ -988,7 +988,7 @@ function Interaction(parameters, player, previousState) {
         }
 
         self.remove();
-        continueWithVideo(adaptivity.seekTo);  
+        continueWithVideo(adaptivity.seekTo);
         },
         true,
         {},
